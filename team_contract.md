@@ -19,3 +19,4 @@ Signatures:
 Chirag Mehta
 Suraj Roy
 Chirag Bhatia
+Lakshay Maharana
