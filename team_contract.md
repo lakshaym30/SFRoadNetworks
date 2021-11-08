@@ -1,4 +1,4 @@
-xCS 225 Data Structures
+CS 225 Data Structures
 Team Contract (surajr4-lakshay3-cbhatia3-chiragm3)
 Communication
 Team Meetings: Our team will ideally meet on Tuesdays and Thursdays from 5:00pm-7:00pm in person, but our meeting times can be more flexible and spontaneous throughout the week. One person will take notes on Google Docs shared with the others and this position will be rotated throughout the project. This assigned note take will also update the team on development progress. 
@@ -17,5 +17,4 @@ Conflict Resolution: Any conflicts within the team will be resolved by playing t
  
 Signatures:
 Chirag Mehta
-Lakshay Maharana
-Chirag Bhatia
+Suraj Roy
