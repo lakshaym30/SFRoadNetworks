@@ -17,3 +17,4 @@ Conflict Resolution: Any conflicts within the team will be resolved by playing t
  
 Signatures:
 Chirag Mehta
+Lakshay Maharana
