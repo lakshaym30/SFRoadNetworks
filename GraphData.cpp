@@ -15,6 +15,7 @@ GraphData::GraphData(string data1, string data2) {
             //inserting into adj list
             Node* n = new Node(id, x, y);
             adj_.push_back(n);
+            numNodes_++;
 
             //node map implementation
             nodes_[id] = make_pair(x, y);
@@ -54,6 +55,27 @@ GraphData::GraphData(string data1, string data2) {
 
 void GraphData::insert(Node* newNode) {
     newNode = nullptr;
+}
+
+void GraphData::BFS(int id) {
+    vector<bool> visited;
+    for (int i = 0; i < numNodes_; i++) visited.push_back(false);
+
+    queue<int> queue;
+    visited.at(id) = true;
+    queue.push(id);
+
+    while (!queue.empty()) {
+        id = queue.front();
+        queue.pop();
+
+        for (int i = 0; i < numNodes_; i++) {
+            if (visited.at(i) == false) {
+                visited.at(i) = true;
+                queue.push(i);
+            }
+        }
+    }
 }
 
 double GraphData::findDist(int node1, int node2) {

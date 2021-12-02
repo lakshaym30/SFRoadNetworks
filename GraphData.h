@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <queue>
 
 using namespace std;
 
@@ -21,11 +22,13 @@ class GraphData {
     GraphData(std::string data1, std::string data2);
     void insert(Node* newNode);
     double findDist(int node1, int node2);
-    
+    void BFS(int id);
+
 
     private:
     vector<Node*> adj_;
 
+    int numNodes_;
     map<int, pair<double, double> > nodes_;
     map<pair<int, int>, double> edges_;
 };
