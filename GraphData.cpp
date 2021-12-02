@@ -7,17 +7,20 @@ GraphData::GraphData(string data1, string data2) {
     string nodeID, xString, yString;
 
     if (ifsNode.is_open()) {
-        //while (getLine(nodeData, txt)) { cout << txt << endl; }
         while (ifsNode >> nodeID >> xString >> yString) {
             int id = stoi(nodeID);
             double x = stod(xString);
             double y = stod(yString);
+
+            //inserting into adj list
+            Node* n = new Node(id, x, y);
+            adj_.push_back(n);
+
+            //node map implementation
             nodes_[id] = make_pair(x, y);
-            //if (id == 42) cout << xString << endl;
         }
     }
 
-    //cout << nodes_[42].first << endl;
     
     ifstream ifsEdge(data2);
     string rubbish, id1, id2, distString;
@@ -27,12 +30,30 @@ GraphData::GraphData(string data1, string data2) {
             int node1 = stoi(id1);
             int node2 = stoi(id2);
             double dist = stod(distString);
+
+            //creating edges between nodes
+            double x1 = nodes_[node1].first;
+            double y1 = nodes_[node1].second;
+            Node* curr = adj_[node1];
+            while (curr->next != nullptr) curr = curr->next;
+            curr->next = new Node(node1, x1, y1);
+
+            double x2 = nodes_[node2].first;
+            double y2 = nodes_[node2].second;
+            curr = adj_[node2];
+            while (curr->next != nullptr) curr = curr->next;
+            curr->next = new Node(node2, x2, y2);
+
+            //edge map implementation
             pair<double, double> p(node1, node2);
             edges_[p] = dist;
         }
     }
-    // pair<double, double> i(472, 473);
-    // cout << edges_[i] << endl;
+
+}
+
+void GraphData::insert(Node* newNode) {
+    newNode = nullptr;
 }
 
 double GraphData::findDist(int node1, int node2) {
