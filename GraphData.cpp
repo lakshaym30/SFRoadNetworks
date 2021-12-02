@@ -69,10 +69,11 @@ void GraphData::BFS(int id) {
         id = queue.front();
         queue.pop();
 
-        for (int i = 0; i < numNodes_; i++) {
-            if (visited.at(i) == false) {
-                visited.at(i) = true;
-                queue.push(i);
+        Node* curr = adj_[id];
+        while (curr != nullptr) {
+            if (visited.at(curr->id) == false) {
+                visited.at(curr->id) = true;
+                queue.push(curr->id);
             }
         }
     }
