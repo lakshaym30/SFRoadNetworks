@@ -25,6 +25,8 @@ class GraphData {
     double findDist(int node1, int node2);
     void BFS(int id);
     void graph_visualizer();
+    int shortestPath(int node1, int node2);
+    int printPath(int parent[], int initial, int final);
 
 
     private:

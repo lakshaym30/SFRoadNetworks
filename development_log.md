@@ -1,7 +1,5 @@
 # Development Log
 
-
-
 ## 11/22
 ### Goals for the week
 
