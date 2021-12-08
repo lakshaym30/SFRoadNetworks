@@ -10,7 +10,7 @@ GraphData::GraphData(string data1, string data2) {
         while (ifsNode >> nodeID >> xString >> yString) {
             int id = stoi(nodeID);
             double x = stod(xString);
-            double y = stod(yString);
+            double y = stod(yString); //check accuracy (printf?)
 
             //inserting into adj list
             Node* n = new Node(id, x, y);
