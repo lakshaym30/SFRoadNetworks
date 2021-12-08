@@ -7,6 +7,9 @@
 #include <fstream>
 #include <queue>
 #include "cs225/HSLAPixel.h"
+#include "cs225/PNG.h"
+#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -24,7 +27,8 @@ class GraphData {
     void insert(Node* newNode);
     double findDist(int node1, int node2);
     void BFS(int id);
-    void graph_visualizer();
+    cs225::PNG graphVisualizer();
+    void drawLines(cs225::PNG * vis);
 
 
     private:
