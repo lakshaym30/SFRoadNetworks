@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <queue>
+#include "cs225/HSLAPixel.h"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ class GraphData {
     void insert(Node* newNode);
     double findDist(int node1, int node2);
     void BFS(int id);
+    void graph_visualizer();
 
 
     private:

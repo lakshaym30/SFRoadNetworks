@@ -3,6 +3,7 @@
 GraphData::GraphData() {}
 
 GraphData::GraphData(string data1, string data2) {
+    cs225::HSLAPixel pixel;
     ifstream ifsNode(data1);
     string nodeID, xString, yString;
 
@@ -91,3 +92,7 @@ double GraphData::findDist(int node1, int node2) {
     }
     return 0;
 }
+
+// void GraphData::graph_visualizer() {
+
+// }

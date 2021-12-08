@@ -5,10 +5,12 @@ CXX=clang++
 main: bin/main.out
 	- $<
 
+
+
 clean:
 	rm -f bin/*
 
-bin/main.out: main.cpp GraphData.cpp 
+bin/main.out: main.cpp GraphData.cpp cs225/PNG.cpp cs225/HSLAPixel.cpp cs225/lodepng/lodepng.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 .DEFAULT_GOAL := main
