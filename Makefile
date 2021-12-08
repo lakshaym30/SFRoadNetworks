@@ -5,8 +5,6 @@ CXX=clang++
 main: bin/main.out
 	- $<
 
-
-
 clean:
 	rm -f bin/*
 
