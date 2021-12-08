@@ -1,4 +1,5 @@
 #include "GraphData.h"
+#include <list>
 
 GraphData::GraphData() {}
 
@@ -209,4 +210,56 @@ void GraphData::drawLines(cs225::PNG * vis) {
 
 
     }
+}
+
+
+// void GraphData::graph_visualizer() {
+
+// }
+
+// int GraphData::printPath(int parent[], int initial, int final) {
+//     static int depth = 0;
+//     if (parent[initial] == -1) {
+//         cout << initial << " to " << final << endl;
+//         return depth;
+//     }
+
+//     printPath(parent, parent[initial], final);
+//     depth++;
+
+//     if (initial < numNodes_) {
+//         cout << initial << " ";
+//     }
+//     return depth;
+//
+
+int GraphData::shortestPath(int node1, int node2) {
+    int capacity = 2 * numNodes_;
+    bool *traversed = new bool[capacity];
+    int *parent = new int[2 * capacity];
+
+    for (int i = 0; i < 2 * capacity; i++){
+        parent[i] = -1;
+        traversed[i] = false;
+    }
+    queue<int> queue;
+
+    traversed[node1] = true;
+    queue.push(node1);
+
+
+
+    while (queue.empty() == false) {
+        int first = queue.front();
+        if (first == node2) {
+            return printPath(parent, first, node2);
+        }
+        queue.pop();
+
+        Node* list = adj_[first];
+        int count = 0;
+    }
+
+
+    return 0;
 }

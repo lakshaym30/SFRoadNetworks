@@ -29,6 +29,9 @@ class GraphData {
     void BFS(int id);
     cs225::PNG graphVisualizer();
     void drawLines(cs225::PNG * vis);
+    void graph_visualizer();
+    int shortestPath(int node1, int node2);
+    int printPath(int parent[], int initial, int final);
 
 
     private:
