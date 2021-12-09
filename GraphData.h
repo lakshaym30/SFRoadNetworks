@@ -30,8 +30,9 @@ class GraphData {
     cs225::PNG graphVisualizer();
     void drawLines(cs225::PNG * vis);
     void graph_visualizer();
-    // int shortestPath(int node1, int node2);
-    // int printPath(int parent[], int initial, int final);
+    // pair<vector<int>, vector<Node*>> shortestPath(vector<Node*> graph, int start_id);
+    // int findMinVal(vector<Node*> visited);
+    // vector<Node*> getAdjacencyList();
 
 
     private:
