@@ -1,5 +1,6 @@
 #include "GraphData.h"
 #include <list>
+#include <float.h>
 
 GraphData::GraphData() {}
 
@@ -217,61 +218,67 @@ void GraphData::drawLines(cs225::PNG * vis) {
 
 // }
 
-pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
+pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
     vector<int> distance;
     distance.resize(numNodes_);
-    vector<int> previous;
+    vector<Node*> previous;
     previous.resize(numNodes_);
-    vector<Node*> nodes;
-    vector<int> unvisited;
-    vector<int> visited;
+    vector<Node*> nodes; //priority queue
+    vector<Node*> visited;
     for (Node* vertex: graph) {
         distance.at(vertex->id) = INT_MAX;
-        unvisited.at(vertex->id) = vertex->id;
+        previous.at(vertex->id) = nullptr;
         nodes.push_back(vertex);
     }
     distance.at(start_id) = 0;
-    visited.push_back(start_id);
-    unvisited.erase(unvisited.begin() + start_id);
+    visited.push_back(nodes.at(start_id));
 
-    /*while (!queue.empty()) {
+
+    while (!nodes.empty()) {
         int min_index = findMinVal(visited);
-        int min_node = nodes.at(min_index);
+        Node* min_node = nodes.at(min_index);
         nodes.erase(nodes.begin() + min_index);
-        Node* current_min = adj_[min_node];
+        Node* current_min = adj_.at(min_node->id);
+        while (current_min->next != nullptr) {
+            current_min = current_min->next;
+            if (std::find(visited.begin(), visited.end(), current_min) == visited.end()) {
+                double temporary_distance = distance.at(min_node->id) + edges_[std::pair<int, int>(min_node->id, current_min->id)];
+                if (temporary_distance < distance.at(current_min->id)) {
+                    distance.at(current_min->id) = temporary_distance;
+                    previous.at(current_min->id) = min_node;
+                    visited.push_back(current_min);
+                }
+            }
+        }
 
-    }*/
-    vector<int> result1;
-    vector<int> result2;
-    return pair<vector<int>, vector<int>>(result1, result2);
+    }
+    pair<vector<int>, vector<Node*>> result;
+    result.first = distance;
+    result.second = previous;
+    return result;
 
 }
 
-int GraphData::findMinVal(vector<int> visited) {
-    int min_distance = INT_MAX;
+int GraphData::findMinVal(vector<Node*> visited) {
+    double min_distance = DBL_MAX;
     int result_vertex;
-    for (int val : visited) {
-        Node* current_val = adj_[val];
-        while (current_val != nullptr) {
-            int edge_distance = edges_[std::pair<int, int>(val, current_val->id)];
+    for (Node* val : visited) {
+        Node* current_val = adj_.at(val->id);
+        while (current_val->next != nullptr) {
+            current_val = current_val->next;
+           double edge_distance = edges_[std::pair<int, int>(val->id, current_val->id)];
+            std::cout << current_val->id << ", " << edge_distance << std::endl;
             if (edge_distance < min_distance) {
                 min_distance = edge_distance;
                 result_vertex = current_val->id;
             }
         }
     }
-    return min_distance;
+    return result_vertex;
 }
 
+vector<Node*> GraphData::getAdjacencyList() {
+    return adj_;
+}
 
-
-/*if (find(unvisited.begin(), unvisited.end(), current_min) != unvisited.end()) {
-                int temp = distance.at(min_node) + edges_[std::pair(current_min->id, min_node)];
-                if (temp < distance.at(current_min)) {
-                    distance.at(current_min) = temp;
-                    previous.at(current_min) = min_node;
-                    unvisited.erase(unvisited.begin() + current_min->id);
-                    visited.at()
-                }
-            }*/
 
