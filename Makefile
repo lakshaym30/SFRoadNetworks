@@ -1,5 +1,5 @@
 INCLUDES=-I includes/
-CXXFLAGS=-std=c++20 -stdlib=libc++ -lc++abi -g -O0 -Wall -Wextra -Werror -pedantic $(INCLUDES)
+CXXFLAGS=-std=c++11 -stdlib=libc++ -lc++abi -g -O0 -Wall -Wextra -Werror -pedantic $(INCLUDES)
 CXX=clang++
 
 main: bin/main.out

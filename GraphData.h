@@ -7,6 +7,9 @@
 #include <fstream>
 #include <queue>
 #include "cs225/HSLAPixel.h"
+#include "cs225/PNG.h"
+#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -24,7 +27,11 @@ class GraphData {
     void insert(Node* newNode);
     double findDist(int node1, int node2);
     void BFS(int id);
+    cs225::PNG graphVisualizer();
+    void drawLines(cs225::PNG * vis);
     void graph_visualizer();
+    // int shortestPath(int node1, int node2);
+    // int printPath(int parent[], int initial, int final);
 
 
     private:
@@ -33,4 +40,9 @@ class GraphData {
     int numNodes_;
     map<int, pair<double, double> > nodes_;
     map<pair<int, int>, double> edges_;
+
+    cs225::HSLAPixel RED = cs225::HSLAPixel(0, 1, 0.5);
+    cs225::HSLAPixel BLACK = cs225::HSLAPixel(0, 1, 0);
+    cs225::HSLAPixel BLUE = cs225::HSLAPixel(240, 1, 0.5);
+    cs225::HSLAPixel GREEN = cs225::HSLAPixel(120, 1, 0.5);
 };
