@@ -31,7 +31,8 @@ class GraphData {
     void drawLines(cs225::PNG * vis);
     void graph_visualizer();
     pair<vector<int>, vector<Node*>> shortestPath(vector<Node*> graph, int start_id);
-    int findMinVal(vector<Node*> visited);
+    int findMinVal(Node* checkNode, vector<Node*> visited);
+    int findSmallerNeighbor(Node* checkNode, vector<Node*> neighbors);
     vector<Node*> getAdjacencyList();
 
 

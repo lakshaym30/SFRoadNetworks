@@ -225,6 +225,7 @@ pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, in
     previous.resize(numNodes_);
     vector<Node*> nodes; //priority queue
     vector<Node*> visited;
+    visited.resize(numNodes_);
     for (Node* vertex: graph) {
         distance.at(vertex->id) = INT_MAX;
         previous.at(vertex->id) = nullptr;
@@ -232,26 +233,30 @@ pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, in
     }
     distance.at(start_id) = 0;
     visited.push_back(nodes.at(start_id));
+    vector<Node*> neighbors;
 
 
-    while (!nodes.empty()) {
-        int min_index = findMinVal(visited);
-        Node* min_node = nodes.at(min_index);
-        nodes.erase(nodes.begin() + min_index);
-        Node* current_min = adj_.at(min_node->id);
-        while (current_min->next != nullptr) {
-            current_min = current_min->next;
-            if (std::find(visited.begin(), visited.end(), current_min) == visited.end()) {
-                double temporary_distance = distance.at(min_node->id) + edges_[std::pair<int, int>(min_node->id, current_min->id)];
-                if (temporary_distance < distance.at(current_min->id)) {
-                    distance.at(current_min->id) = temporary_distance;
-                    previous.at(current_min->id) = min_node;
-                    visited.push_back(current_min);
+   while (nodes.size() != 0) {
+       neighbors.clear();
+        std::cout << "Nodes size: " << nodes.size() << std::endl;
+       Node* checkNode = visited.at(visited.size() - 1);
+       Node* current_check = adj_.at(checkNode->id);
+       while (current_check->next != nullptr) {
+           current_check = current_check->next;
+           if (std::find(visited.begin(), visited.end(), current_check) == visited.end()) {
+               double temporary_distance = distance.at(checkNode->id) + findDist(checkNode->id, current_check->id);
+                if (temporary_distance < distance.at(current_check->id)) {
+                    distance.at(current_check->id) = temporary_distance;
+                    previous.at(current_check->id) = checkNode;
+                    neighbors.push_back(current_check); 
                 }
-            }
-        }
-
+           } 
+       }
+        int nextID = findSmallerNeighbor(checkNode, neighbors);
+        visited.push_back(nodes.at(nextID));
+        nodes.erase(nodes.begin() + checkNode->id);
     }
+
     pair<vector<int>, vector<Node*>> result;
     result.first = distance;
     result.second = previous;
@@ -259,21 +264,35 @@ pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, in
 
 }
 
-int GraphData::findMinVal(vector<Node*> visited) {
+int GraphData::findSmallerNeighbor(Node* checkNode, vector<Node*> neighbors) {
+    double smallestWeight = DBL_MAX;
+    int result_node;
+    for (Node* val : neighbors) {
+        double weight = findDist(checkNode->id, val->id);
+        if (weight < smallestWeight) {
+            smallestWeight = weight;
+            result_node = val->id;
+        }
+    }
+    return result_node; 
+}
+
+int GraphData::findMinVal(Node* checkNode, vector<Node*> visited) {
     double min_distance = DBL_MAX;
     int result_vertex;
-    for (Node* val : visited) {
-        Node* current_val = adj_.at(val->id);
-        while (current_val->next != nullptr) {
-            current_val = current_val->next;
-           double edge_distance = edges_[std::pair<int, int>(val->id, current_val->id)];
-            std::cout << current_val->id << ", " << edge_distance << std::endl;
+    Node* current_val = adj_.at(checkNode->id);
+    while (current_val->next != nullptr) {
+        current_val = current_val->next;
+        if (std::find(visited.begin(), visited.end(), current_val) == visited.end()) {
+            double edge_distance = findDist(checkNode->id, current_val->id);
+            std::cout << checkNode->id << ", " << current_val->id << ", " << edge_distance << std::endl;
             if (edge_distance < min_distance) {
                 min_distance = edge_distance;
                 result_vertex = current_val->id;
             }
         }
     }
+    std::cout << result_vertex << std::endl;
     return result_vertex;
 }
 
