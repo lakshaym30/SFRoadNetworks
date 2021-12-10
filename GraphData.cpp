@@ -219,82 +219,54 @@ void GraphData::drawLines(cs225::PNG * vis) {
 // }
 
 pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
-    vector<int> distance;
-    distance.resize(numNodes_);
-    vector<Node*> previous;
-    previous.resize(numNodes_);
-    vector<Node*> nodes; //priority queue
     vector<Node*> visited;
-    visited.resize(numNodes_);
-    for (Node* vertex: graph) {
-        distance.at(vertex->id) = INT_MAX;
-        previous.at(vertex->id) = nullptr;
-        nodes.push_back(vertex);
+    vector<Node*> unvisited;
+    vector<int> distances;
+    vector<Node*> previous;
+    for (Node* node : graph) {
+        unvisited.push_back(node);
+        distances.push_back(INT_MAX);
+        previous.push_back(nullptr);
     }
-    distance.at(start_id) = 0;
-    visited.push_back(nodes.at(start_id));
-    vector<Node*> neighbors;
-
-
-   while (nodes.size() != 0) {
-       neighbors.clear();
-        std::cout << "Nodes size: " << nodes.size() << std::endl;
-       Node* checkNode = visited.at(visited.size() - 1);
-       Node* current_check = adj_.at(checkNode->id);
-       while (current_check->next != nullptr) {
-           current_check = current_check->next;
-           if (std::find(visited.begin(), visited.end(), current_check) == visited.end()) {
-               double temporary_distance = distance.at(checkNode->id) + findDist(checkNode->id, current_check->id);
-                if (temporary_distance < distance.at(current_check->id)) {
-                    distance.at(current_check->id) = temporary_distance;
-                    previous.at(current_check->id) = checkNode;
-                    neighbors.push_back(current_check); 
+    distances.at(start_id) = 0;
+    int check_id = start_id;
+    while (unvisited.size() != 0) {
+        Node* check_node = adj_.at(check_id);
+        int min_distance = INT_MAX;
+        while (check_node->next != nullptr) {
+            check_node = check_node->next;
+            if (find(visited.begin(), visited.end(), check_node) == visited.end()) {
+                if (distances.at(check_node->id) > findDist(check_id, check_node->id)) {
+                    distances.at(check_node->id) = findDist(check_id, check_node->id);
+                    previous.at(check_node->id) = adj_.at(check_id);
                 }
-           } 
-       }
-        int nextID = findSmallerNeighbor(checkNode, neighbors);
-        visited.push_back(nodes.at(nextID));
-        nodes.erase(nodes.begin() + checkNode->id);
-    }
-
-    pair<vector<int>, vector<Node*>> result;
-    result.first = distance;
-    result.second = previous;
-    return result;
-
-}
-
-int GraphData::findSmallerNeighbor(Node* checkNode, vector<Node*> neighbors) {
-    double smallestWeight = DBL_MAX;
-    int result_node;
-    for (Node* val : neighbors) {
-        double weight = findDist(checkNode->id, val->id);
-        if (weight < smallestWeight) {
-            smallestWeight = weight;
-            result_node = val->id;
-        }
-    }
-    return result_node; 
-}
-
-int GraphData::findMinVal(Node* checkNode, vector<Node*> visited) {
-    double min_distance = DBL_MAX;
-    int result_vertex;
-    Node* current_val = adj_.at(checkNode->id);
-    while (current_val->next != nullptr) {
-        current_val = current_val->next;
-        if (std::find(visited.begin(), visited.end(), current_val) == visited.end()) {
-            double edge_distance = findDist(checkNode->id, current_val->id);
-            std::cout << checkNode->id << ", " << current_val->id << ", " << edge_distance << std::endl;
-            if (edge_distance < min_distance) {
-                min_distance = edge_distance;
-                result_vertex = current_val->id;
+                if (findDist(check_id, check_node->id) < min_distance) {
+                    min_distance = findDist(check_id, check_node->id);
+                    check_id = check_node->id;
+                }    
             }
         }
+        unvisited.erase(unvisited.begin() + check_id);
+        visited.push_back(adj_.at(check_id));
     }
-    std::cout << result_vertex << std::endl;
-    return result_vertex;
+    pair<vector<int>, vector<Node*>> result;
+    result.first = distances;
+    result.second = previous;
+    return result;
 }
+
+// double GraphData::findDist(int node1, int node2) {
+//     pair<double, double> primary(node1, node2);
+//     pair<double, double> alternate(node2, node1);
+//     double primary_dist_ = edges_[primary];
+//     double alternate_dist_ = edges_[alternate];
+//     if (primary_dist_ != 0) {
+//         return primary_dist_;
+//     } else if (alternate_dist_ != 0) {
+//         return alternate_dist_;
+//     }
+//     return 0;
+// }
 
 vector<Node*> GraphData::getAdjacencyList() {
     return adj_;
