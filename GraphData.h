@@ -6,12 +6,16 @@
 #include <iostream>
 #include <fstream>
 #include <queue>
-#include "cs225/HSLAPixel.h"
-#include "cs225/PNG.h"
 #include <math.h>
 #include <cmath>
+#include <list>
+#include <float.h>
+
+#include "cs225/HSLAPixel.h"
+#include "cs225/PNG.h"
 
 using namespace std;
+using namespace cs225;
 
 struct Node {
     Node(int newId, double xcoord, double ycoord): id(newId), x(xcoord), y(ycoord), next(nullptr) {}
@@ -27,8 +31,8 @@ class GraphData {
     void insert(Node* newNode);
     double findDist(int node1, int node2);
     void BFS(int id);
-    cs225::PNG graphVisualizer();
-    void drawLines(cs225::PNG * vis);
+    PNG graphVisualizer();
+    //void drawLines(PNG * vis);
     void graph_visualizer();
     // pair<vector<int>, vector<Node*>> shortestPath(vector<Node*> graph, int start_id);
     // int findMinVal(vector<Node*> visited);
@@ -42,8 +46,8 @@ class GraphData {
     map<int, pair<double, double> > nodes_;
     map<pair<int, int>, double> edges_;
 
-    cs225::HSLAPixel RED = cs225::HSLAPixel(0, 1, 0.5);
-    cs225::HSLAPixel BLACK = cs225::HSLAPixel(0, 1, 0);
-    cs225::HSLAPixel BLUE = cs225::HSLAPixel(240, 1, 0.5);
-    cs225::HSLAPixel GREEN = cs225::HSLAPixel(120, 1, 0.5);
+    HSLAPixel RED = HSLAPixel(0, 1, 0.5);
+    HSLAPixel BLACK = HSLAPixel(0, 1, 0);
+    HSLAPixel BLUE = HSLAPixel(240, 1, 0.5);
+    HSLAPixel GREEN = HSLAPixel(120, 1, 0.5);
 };
