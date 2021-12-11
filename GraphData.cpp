@@ -1,11 +1,9 @@
 #include "GraphData.h"
-#include <list>
-#include <float.h>
 
 GraphData::GraphData() {}
 
 GraphData::GraphData(string data1, string data2) {
-    cs225::HSLAPixel pixel;
+    HSLAPixel pixel;
     ifstream ifsNode(data1);
     string nodeID, xString, yString;
 
@@ -13,7 +11,7 @@ GraphData::GraphData(string data1, string data2) {
         while (ifsNode >> nodeID >> xString >> yString) {
             int id = stoi(nodeID);
             double x = stod(xString);
-            double y = stod(yString);
+            double y = stod(yString); //check accuracy (printf?)
 
             //inserting into adj list
             Node* n = new Node(id, x, y);
@@ -87,6 +85,7 @@ void GraphData::BFS(int id) {
             }
         }
     }
+
 }
 
 float GraphData::findDist(int node1, int node2) {
@@ -104,126 +103,94 @@ float GraphData::findDist(int node1, int node2) {
     return -1;
 }
 
-cs225::PNG GraphData::graphVisualizer() {
-    cs225::PNG * vis = new cs225::PNG(12000, 10000);
-    for (Node * val: adj_) {
-        cs225::HSLAPixel pixel = cs225::HSLAPixel(0,1,0.5);
-        cs225::HSLAPixel pixel2 = cs225::HSLAPixel(1,0,0);
+PNG GraphData::graphVisualizer() {
+    const int width = 12000;
+    const int height = 12000;
+    PNG* vis = new PNG(width, height);
 
-        //creating 2 by 2 for each node for visualization
-        cs225::HSLAPixel & curPixel = vis->getPixel(val->x -1, val->y - 1);
-        curPixel = pixel;
-        cs225::HSLAPixel & curPixel2 = vis->getPixel(val->x, val->y - 1);  
-        curPixel2 = pixel2;
-        cs225::HSLAPixel & curPixel3 = vis->getPixel(val->x - 1, val->y);  
-        curPixel3 = pixel;
-        cs225::HSLAPixel & curPixel4 = vis->getPixel(val->x, val->y);  
-        curPixel4 = pixel2;
-        cs225::HSLAPixel & curPixel5 = vis->getPixel(val->x + 1, val->y);  
-        curPixel5 = pixel2;
-        cs225::HSLAPixel & curPixel6 = vis->getPixel(val->x, val->y + 1);  
-        curPixel6 = pixel2;
-        cs225::HSLAPixel & curPixel7 = vis->getPixel(val->x + 1, val->y + 1);  
-        curPixel7 = pixel;
-        cs225::HSLAPixel & curPixel8 = vis->getPixel(val->x + 1, val->y - 1);  
-        curPixel8 = pixel2;
-        cs225::HSLAPixel & curPixel9 = vis->getPixel(val->x - 1, val->y + 1);  
-        curPixel9 = pixel;
+    //creating point on png for every node
+    for (Node* val : adj_) {
+        //creating 3 by 3 for each node for visualization
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                HSLAPixel & curPixel = vis->getPixel(val->x + i, height - val->y + j);
+                if (j % 2 == 0) curPixel = BLUE; //switching colors for fun
+                else curPixel = RED; 
+            }
+        }
     }
 
-    //drawLines(vis);
-    for (Node * val: adj_) {
-        Node * next_ = val->next;
-        while (next_ != nullptr) {
-           
-            int x1 = val->x;
-            int y1 = val->y;
-            int x2 = next_->x;
-            int y2 = next_->y;
+    map<pair<int, int>, bool> visited;
+    //drawing edges between appropriate nodes with connections
+    for (Node* val : adj_) {
+        Node* next_ = val->next;
+        pair<int, int> p1 = make_pair(val->id, next_->id);
+        pair<int, int> p2 = make_pair(next_->id, val->id);
+
+        while (next_ != nullptr) {     
+            if (!visited[p1] || !visited[p2]) { //ensuring no lines are redrawn
+                double x1 = val->x;
+                double y1 = height - val->y; //12000 - val bc in png 0, 0 in top left corner when should be in bottom left
+                double x2 = next_->x;
+                double y2 = height - next_->y;
+
+                double dx = x2 - x1;
+                double dy = y2 - y1;
+
+                //Bresenham's line algo   
+                //requires that first point is in bottom left and second is top right
+                //so we need to swap the x and y values appropriately so algo doesnt break
+                bool steep = abs(dy) > abs(dx);
+                if (steep) {
+                    swap(x1, y1);
+                    swap(x2, y2);
+                }
+
+                if (x1 > x2) {
+                    swap(x1, x2);
+                    swap(y1, y2);
+                }
+
+                dx = x2 - x1;
+                dy = abs(y2 - y1);
+
+                double err = dx / 2.0;
+                int y_inc = (y1 < y2) ? 1 : -1;
+                int y = (int) y1;
+
+                int x_max = (int) x2;
+                for (int x = (int) x1; x <= x_max; x++) {  
+                    //using alternate x or y with respect to stepp
+                    if (steep) {
+                        HSLAPixel & curPixel = vis->getPixel(y, x);
+                        curPixel = BLACK;
+                    } else {
+                        HSLAPixel & curPixel = vis->getPixel(x, y);
+                        curPixel = BLACK;
+                    }
+
+                    err -= dy;
+                    if (err < 0) {
+                        y += y_inc;
+                        err += dx;
+                    }
+
+                    //if (x >= width || y >= height) cout << "x: " << x << ", y: " << y << endl;
+                } // for loop
+                visited[p1] = true;
+                visited[p2] = true;
+            }  // if visited
             
-            int dx = x2 - x1;
-            int dy = y2 - y1;
-            int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
-    
-            float Xinc = dx / (float) steps;
-            float Yinc = dy / (float) steps;
-
-            float x = x1;
-            float y = x2;
-
-            for(int i = 0; i <= steps; i++) {
-                cs225::HSLAPixel pixel2 = cs225::HSLAPixel(180,1,0.5);
-                cs225::HSLAPixel & curPixel = vis->getPixel(round(x), round(y));
-                curPixel = pixel2;
-
-                x += Xinc;
-                y += Yinc;
-            
-            }
             next_ = next_->next;
         }
         
     }
-
+    
     return *vis;
 
 }
 
-
-void GraphData::drawLines(cs225::PNG * vis) {
-    //map<int, int> visited;
-    for (Node * val: adj_) {
-        Node * next_ = val->next;
-        std::cout<<"works"<<endl;
-        int x1 = val->x;
-        int y1 = val->y;
-        int x2 = next_->x;
-        int y2 = next_->y;
-
-
-        int dx = x2 - x1;
-        int dy = y2 - y1;
-        int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
- 
-        float Xinc = dx / (float) steps;
-        float Yinc = dy / (float) steps;
-
-        float x = x1;
-        float y = x2;
-
-        for(int i = 0; i < steps; i++) {
-            cs225::HSLAPixel pixel2 = cs225::HSLAPixel(180,1,0.5);
-            cs225::HSLAPixel & curPixel = vis->getPixel(round(x), round(y));
-            curPixel = pixel2;
-
-            x += Xinc;
-            y += Yinc;
-            
-        }
-
-        // int m_new = 2 * (y2-y1);
-        // int error = m_new - (x2 - x1);
-        // for(int x = x1, y = y1; x <= x2; x++) {
-        //     cs225::HSLAPixel pixel2 = cs225::HSLAPixel(180,1,0.5);
-        //     cs225::HSLAPixel & curPixel = vis->getPixel(x, y);
-        //     curPixel = pixel2;
-
-        //     error+= m_new;
-        //     if(error >= 0) {
-        //         y++;
-        //         error -= 2 * (x2 - x1);
-        //     }
-        // }
-
-
-    }
-}
-
-
-// void GraphData::graph_visualizer() {
-
-// }
-
+/*
 pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
     vector<Node*> visited;
     vector<Node*> unvisited;
@@ -297,5 +264,6 @@ pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, in
 vector<Node*> GraphData::getAdjacencyList() {
     return adj_;
 }
+*/
 
 
