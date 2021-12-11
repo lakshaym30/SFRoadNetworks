@@ -22,5 +22,7 @@ During this week, our group was able to build necessary data structures (node st
 For this week, our group plans on completing the shortest path algorithm and visualization implementation, writing sufficient test cases to test our code, and outlining the written report and presentation.
 
 ### Progress
-We have finished the graph visualization algorithm, as it now presents an image of the graph of San Francisco road networks. As of now, we are still working on tests, as well as the shortest path algorithm. 
+
+During this week, our group was able to complete the graph visualization algorithm. This algorithm works as intended, and it presents an image of the graph of road networks in San Francisco. We are currently still working on implementing test cases and completing our shortest path algorithm so that it works as intended on our large dataset
+
 
