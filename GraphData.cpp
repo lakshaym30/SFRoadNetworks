@@ -122,7 +122,7 @@ PNG GraphData::graphVisualizer() {
         pair<int, int> p2 = make_pair(next_->id, val->id);
 
         while (next_ != nullptr) {     
-            if (!visited[p1] && !visited[p2]) { //ensuring no lines are redrawn
+            if (!visited[p1] || !visited[p2]) { //ensuring no lines are redrawn
                 double x1 = val->x;
                 double y1 = height - val->y; //12000 - val bc in png 0, 0 in top left corner when should be in bottom left
                 double x2 = next_->x;
@@ -169,10 +169,8 @@ PNG GraphData::graphVisualizer() {
                         err += dx;
                     }
 
-                    if (x >= width || y >= height) {
-                        cout << "x: " << x << ", y: " << y << endl;
-                    }
-                } // for x
+                    //if (x >= width || y >= height) cout << "x: " << x << ", y: " << y << endl;
+                } // for loop
                 visited[p1] = true;
                 visited[p2] = true;
             }  // if visited
