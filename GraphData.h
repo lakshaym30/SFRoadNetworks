@@ -29,14 +29,14 @@ class GraphData {
     GraphData();
     GraphData(std::string data1, std::string data2);
     void insert(Node* newNode);
-    float findDist(int node1, int node2);
+    //double findDist(int node1, int node2);
     void BFS(int id);
     PNG graphVisualizer();
     //void drawLines(PNG * vis);
     void graph_visualizer();
-    // pair<vector<int>, vector<Node*>> shortestPath(vector<Node*> graph, int start_id);
+    pair<vector<int>, vector<Node*>> shortestPath(vector<Node*> graph, int start_id);
     // int findMinVal(vector<Node*> visited);
-    // vector<Node*> getAdjacencyList();
+    vector<Node*> getAdjacencyList();
 
 
     private:
