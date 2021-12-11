@@ -5,6 +5,6 @@ int main() {
 
     //cs225::PNG result = gd.graphVisualizer();
     //result.writeToFile("SFGraph.png");
-    pair<vector<int>, vector<Node*>> result = gd.shortestPath(gd.getAdjacencyList(), 3);
+    pair<vector<int>, vector<Node*>> result = gd.shortestPath(gd.getAdjacencyList(), 0);
     return 0;
 }
