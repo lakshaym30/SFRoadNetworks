@@ -7,8 +7,8 @@ int main() {
     //PNG result = gd.graphVisualizer();
     //result.writeToFile("SFGraph.png");
     pair<vector<int>, vector<int>> result = gd.shortestPath(gd.getAdjacencyList(), 0);
-    for (int i : result.second) {
-        cout << i << endl;
+    for (int val : result.second) {
+        cout << val << endl;
     }
     return 0;
 }
