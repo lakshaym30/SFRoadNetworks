@@ -191,69 +191,54 @@ PNG GraphData::graphVisualizer() {
 }
 
 
-pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
+pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
     vector<Node*> visited;
     vector<Node*> unvisited;
     vector<int> distances;
-    vector<Node*> previous;
+    vector<int> previous;
 
     for (Node* node : graph) {
         unvisited.push_back(node);
         distances.push_back(INT_MAX);
-        previous.push_back(nullptr);
+        previous.push_back(0);
     }
 
     distances.at(start_id) = 0;
     int check_id = start_id;
     int delete_count = 0;
-    while (unvisited.size() != 0) {
+    while (unvisited.size() != 0) { 
         Node* check_node = adj_.at(check_id);
         pair<int, int> p;
         std::cout << "starting: " << check_id <<  std::endl;
         int min_distance = INT_MAX;
-        while (check_node != nullptr && check_node->next != nullptr) {
+        int lowest_neighbor;
+        while (check_node->next != nullptr) {
             check_node = check_node->next;
-            //std::cout << check_node->id << std::endl;
             p = make_pair(check_id, check_node->id);
             if (find(visited.begin(), visited.end(), check_node) == visited.end()) {
                 std::cout << "id1: " << check_id << ", id2: " << check_node->id << ", dist: " << edges_[p] << endl;
                 //std::cout << "neighbor:"  << check_node->id << ", distance: " << edges_[p] << std::endl;
-                // if (distances.at(check_node->id) > findDist(check_id, check_node->id)) {
-                //     distances.at(check_node->id) = findDist(check_id, check_node->id);
-                //     previous.at(check_node->id) = adj_.at(check_id);
-                // }
-                // if (findDist(check_id, check_node->id) < min_distance) {
-                //     min_distance = findDist(check_id, check_node->id);
-                //     check_id = check_node->id;
-                // }    
-                if (distances.at(check_node->id) > edges_[p]) {
-                    distances.at(check_node->id) = edges_[p];
-                    previous.at(check_node->id) = adj_.at(check_id);
+                if (distances.at(check_node->id)  > edges_[p] + distances.at(check_id)) {
+                    distances.at(check_node->id) = edges_[p] + distances.at(check_id);
+                    previous.at(check_node->id) = check_id;
+                    if (edges_[p] + distances.at(check_id) < min_distance) {
+                        lowest_neighbor = check_node->id;
+                        min_distance = edges_[p] + distances.at(check_id); 
+                    }
+                    
                 }
+                 
             }
         }
-    
+        check_id = lowest_neighbor; 
         //cout << "seg fault checker" << endl;
         //cout << check_node->id << endl;
-        if (edges_[p] + distances.at(check_id) < min_distance) {
-            min_distance = edges_[p];
-            check_id = check_node->id;
-        }   
-        //cout << "check id " << check_id << endl;
-        // for (Node* n : unvisited) {
-        //     cout << "loop" << n->id << endl;
-        // }
-        // vector<Node*>::iterator iter;
-        // iter = remove(unvisited.begin(), unvisited.end(), adj_.at(check_id));
+         
         unvisited.erase(unvisited.begin() + check_id - delete_count);
         delete_count++;
-        //unvisited.remove(unvisited.begin(), unvisited.end(), check_id);
-        //cout << "size " << adj_.size() << endl;
-        //cout << "vect " << adj_.at(check_id) << endl;
-        //cout << " size " << unvisited.size() << endl;
         visited.push_back(adj_.at(check_id));
     }
-    pair<vector<int>, vector<Node*>> result;
+    pair<vector<int>, vector<int>> result;
     result.first = distances;
     result.second = previous;
     return result;

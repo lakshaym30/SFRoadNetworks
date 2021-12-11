@@ -34,7 +34,7 @@ class GraphData {
     PNG graphVisualizer();
     //void drawLines(PNG * vis);
     void graph_visualizer();
-    pair<vector<int>, vector<Node*>> shortestPath(vector<Node*> graph, int start_id);
+    pair<vector<int>, vector<int>> shortestPath(vector<Node*> graph, int start_id);
     // int findMinVal(vector<Node*> visited);
     vector<Node*> getAdjacencyList();
 
