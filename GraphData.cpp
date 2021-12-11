@@ -52,6 +52,8 @@ GraphData::GraphData(string data1, string data2) {
             //edge map implementation
             pair<double, double> p(node1, node2);
             edges_[p] = dist;
+            std::cout<<p.first<< " "<<p.second<<std::endl;
+            std::cout<<dist<<std::endl;
         }
     }
 
