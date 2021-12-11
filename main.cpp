@@ -1,8 +1,8 @@
 #include "GraphData.h"
 
 int main() {
-    //GraphData gd("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    GraphData gd("datasets/SFnodes.txt", "datasets/SFedges.txt");
+    GraphData gd("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
+    //GraphData gd("datasets/SFnodes.txt", "datasets/SFedges.txt");
 
 
     PNG result = gd.graphVisualizer();

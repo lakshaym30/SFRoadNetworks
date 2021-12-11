@@ -31,7 +31,7 @@ GraphData::GraphData(string data1, string data2) {
         while (ifsEdge >> rubbish >> id1 >> id2 >> distString) {
             int node1 = stoi(id1);
             int node2 = stoi(id2);
-            double dist = stod(distString);
+            float dist = stof(distString);
 
             //creating edges between nodes
             double x1 = nodes_[node1].first;
@@ -50,10 +50,12 @@ GraphData::GraphData(string data1, string data2) {
             curr->next = new Node(node1, x1, y1);
 
             //edge map implementation
-            pair<double, double> p(node1, node2);
+            pair<int, int> p(node1, node2);
+            pair<int, int> p2(node2, node1);
             edges_[p] = dist;
-            std::cout<<p.first<< " "<<p.second<<std::endl;
-            std::cout<<dist<<std::endl;
+            edges_[p2] = dist;
+            //cout << "id1: " << node1 << ", id2: " << node2 << ", dist: " << dist << endl;
+            //cout << "id1: " << p.first << ", id2: " << p.second << ", dist: " << edges_[p] << endl;
         }
     }
 
@@ -84,19 +86,6 @@ void GraphData::BFS(int id) {
         }
     }
 
-}
-
-double GraphData::findDist(int node1, int node2) {
-    pair<double, double> primary(node1, node2);
-    pair<double, double> alternate(node2, node1);
-    double primary_dist_ = edges_[primary];
-    double alternate_dist_ = edges_[alternate];
-    if (primary_dist_ != 0) {
-        return primary_dist_;
-    } else if (alternate_dist_ != 0) {
-        return alternate_dist_;
-    }
-    return 0;
 }
 
 PNG GraphData::graphVisualizer() {
@@ -186,60 +175,73 @@ PNG GraphData::graphVisualizer() {
 
 }
 
-/*
-pair<vector<int>, vector<Node*>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
+
+pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
     vector<Node*> visited;
     vector<Node*> unvisited;
     vector<int> distances;
-    vector<Node*> previous;
+    vector<int> previous;
+    //visited<int> visited_index;
+
     for (Node* node : graph) {
         unvisited.push_back(node);
         distances.push_back(INT_MAX);
-        previous.push_back(nullptr);
+        previous.push_back(0);
     }
+
     distances.at(start_id) = 0;
+    visited.push_back(adj_.at(start_id));
     int check_id = start_id;
-    while (unvisited.size() != 0) {
+    int delete_count = 0;
+    while (unvisited.size() != 0) { 
         Node* check_node = adj_.at(check_id);
+        pair<int, int> p;
+        std::cout << "starting: " << check_id <<  std::endl;
         int min_distance = INT_MAX;
+        int lowest_neighbor;
         while (check_node->next != nullptr) {
             check_node = check_node->next;
-            if (find(visited.begin(), visited.end(), check_node) == visited.end()) {
-                if (distances.at(check_node->id) > findDist(check_id, check_node->id)) {
-                    distances.at(check_node->id) = findDist(check_id, check_node->id);
-                    previous.at(check_node->id) = adj_.at(check_id);
+            p = make_pair(check_id, check_node->id);
+            if (checkVisited(check_node, visited) == false) {
+                std::cout << "id1: " << check_id << ", id2: " << check_node->id << ", dist: " << edges_[p] << endl;
+                //std::cout << "neighbor:"  << check_node->id << ", distance: " << edges_[p] << std::endl;
+                if (distances.at(check_node->id)  > edges_[p] + distances.at(check_id)) {
+                    distances.at(check_node->id) = edges_[p] + distances.at(check_id);
+                    previous.at(check_node->id) = check_id;  
                 }
-                if (findDist(check_id, check_node->id) < min_distance) {
-                    min_distance = findDist(check_id, check_node->id);
-                    check_id = check_node->id;
-                }    
+                if (edges_[p] + distances.at(check_id) < min_distance) {
+                        lowest_neighbor = check_node->id;
+                        min_distance = edges_[p] + distances.at(check_id); 
+                    }
+                 
             }
         }
-        unvisited.erase(unvisited.begin() + check_id);
+        check_id = lowest_neighbor; 
+        //cout << "seg fault checker" << endl;
+        //cout << check_node->id << endl;
+         
+        unvisited.erase(unvisited.begin() + check_id - delete_count);
+        delete_count++;
         visited.push_back(adj_.at(check_id));
     }
-    pair<vector<int>, vector<Node*>> result;
+    pair<vector<int>, vector<int>> result;
     result.first = distances;
     result.second = previous;
     return result;
 }
 
-// double GraphData::findDist(int node1, int node2) {
-//     pair<double, double> primary(node1, node2);
-//     pair<double, double> alternate(node2, node1);
-//     double primary_dist_ = edges_[primary];
-//     double alternate_dist_ = edges_[alternate];
-//     if (primary_dist_ != 0) {
-//         return primary_dist_;
-//     } else if (alternate_dist_ != 0) {
-//         return alternate_dist_;
-//     }
-//     return 0;
-// }
+bool GraphData::checkVisited(Node* check, vector<Node*> visited) {
+    for (Node* val : visited) {
+        if (val->id == check->id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 vector<Node*> GraphData::getAdjacencyList() {
     return adj_;
 }
-*/
 
 
