@@ -98,9 +98,8 @@ PNG GraphData::graphVisualizer() {
         //creating 3 by 3 for each node for visualization
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                HSLAPixel & curPixel = vis->getPixel(val->x + i, height - val->y + j);
-                if (j % 2 == 0) curPixel = BLUE; //switching colors for fun
-                else curPixel = RED; 
+                HSLAPixel & curPixel = vis->getPixel((unsigned int)(val->x + i) + 1 , (unsigned int)(vis->height() - val->y + j) - 2);
+                curPixel = ORANGE;
             }
         }
     }
@@ -114,10 +113,10 @@ PNG GraphData::graphVisualizer() {
 
         while (next_ != nullptr) {     
             if (!visited[p1] || !visited[p2]) { //ensuring no lines are redrawn
-                double x1 = val->x;
-                double y1 = height - val->y; //12000 - val bc in png 0, 0 in top left corner when should be in bottom left
-                double x2 = next_->x;
-                double y2 = height - next_->y;
+                double x1 = val->x + 1;
+                double y1 = (vis->height() - val->y) - 2; //12000 - val bc in png 0, 0 in top left corner when should be in bottom left
+                double x2 = next_->x + 1;
+                double y2 = vis->height() - next_->y - 2;
 
                 double dx = x2 - x1;
                 double dy = y2 - y1;
@@ -143,15 +142,23 @@ PNG GraphData::graphVisualizer() {
                 int y_inc = (y1 < y2) ? 1 : -1;
                 int y = (int) y1;
 
-                int x_max = (int) x2;
-                for (int x = (int) x1; x <= x_max; x++) {  
+                unsigned int x_max = (int) x2;
+                for (unsigned int x = (int) x1; x <= x_max; x++) {  
+                    // if(val->x > vis->width()) {
+                    //     vis->resize(val->x + 2, vis->height());
+                    //     cout << "width: " << vis->width() << endl;
+                    // }
+                    // if(val->y > vis->height()) {
+                    //     vis->resize(vis->width(), val->y + 2);
+                    //     //cout << "height: " << vis->height() << endl;
+                    // }
                     //using alternate x or y with respect to stepp
                     if (steep) {
                         HSLAPixel & curPixel = vis->getPixel(y, x);
-                        curPixel = BLACK;
+                        curPixel = BLUE;
                     } else {
                         HSLAPixel & curPixel = vis->getPixel(x, y);
-                        curPixel = BLACK;
+                        curPixel = BLUE;
                     }
 
                     err -= dy;

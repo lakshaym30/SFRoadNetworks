@@ -52,4 +52,5 @@ class GraphData {
     HSLAPixel BLACK = HSLAPixel(0, 1, 0);
     HSLAPixel BLUE = HSLAPixel(240, 1, 0.5);
     HSLAPixel GREEN = HSLAPixel(120, 1, 0.5);
+    HSLAPixel ORANGE = HSLAPixel(39, 1, 0.5);
 };
