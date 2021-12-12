@@ -54,8 +54,6 @@ GraphData::GraphData(string data1, string data2) {
             pair<int, int> p2(node2, node1);
             edges_[p] = dist;
             edges_[p2] = dist;
-            //cout << "id1: " << node1 << ", id2: " << node2 << ", dist: " << dist << endl;
-            //cout << "id1: " << p.first << ", id2: " << p.second << ", dist: " << edges_[p] << endl;
         }
     }
 
@@ -88,21 +86,6 @@ void GraphData::BFS(int id) {
 
 }
 
-// float GraphData::findDist(int node1, int node2) {
-//     pair<int, int> primary(node1, node2);
-//     pair<int, int> alternate(node2, node1);
-//     float primary_dist_ = edges_[primary];
-//     float alternate_dist_ = edges_[alternate];
-
-//     if (primary_dist_ != 0 && alternate_dist_ == 0) {
-//         return primary_dist_;
-//     } else if (alternate_dist_ != 0) {
-//         return alternate_dist_;
-//     }
-//     std::cout << "reached end" << endl;
-//     return -1;
-// }
-
 PNG GraphData::graphVisualizer() {
     const int width = 12000;
     const int height = 12000;
@@ -113,9 +96,8 @@ PNG GraphData::graphVisualizer() {
         //creating 3 by 3 for each node for visualization
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                HSLAPixel & curPixel = vis->getPixel(val->x + i, height - val->y + j);
-                if (j % 2 == 0) curPixel = BLUE; //switching colors for fun
-                else curPixel = RED; 
+                HSLAPixel & curPixel = vis->getPixel((unsigned int)(val->x + i) + 1 , (unsigned int)(vis->height() - val->y + j) - 2);
+                curPixel = ORANGE;
             }
         }
     }
@@ -129,10 +111,10 @@ PNG GraphData::graphVisualizer() {
 
         while (next_ != nullptr) {     
             if (!visited[p1] || !visited[p2]) { //ensuring no lines are redrawn
-                double x1 = val->x;
-                double y1 = height - val->y; //12000 - val bc in png 0, 0 in top left corner when should be in bottom left
-                double x2 = next_->x;
-                double y2 = height - next_->y;
+                double x1 = val->x + 1;
+                double y1 = (vis->height() - val->y) - 2; //12000 - val bc in png 0, 0 in top left corner when should be in bottom left
+                double x2 = next_->x + 1;
+                double y2 = vis->height() - next_->y - 2;
 
                 double dx = x2 - x1;
                 double dy = y2 - y1;
@@ -158,15 +140,15 @@ PNG GraphData::graphVisualizer() {
                 int y_inc = (y1 < y2) ? 1 : -1;
                 int y = (int) y1;
 
-                int x_max = (int) x2;
-                for (int x = (int) x1; x <= x_max; x++) {  
+                unsigned int x_max = (int) x2;
+                for (unsigned int x = (int) x1; x <= x_max; x++) {  
                     //using alternate x or y with respect to stepp
                     if (steep) {
                         HSLAPixel & curPixel = vis->getPixel(y, x);
-                        curPixel = BLACK;
+                        curPixel = BLUE;
                     } else {
                         HSLAPixel & curPixel = vis->getPixel(x, y);
-                        curPixel = BLACK;
+                        curPixel = BLUE;
                     }
 
                     err -= dy;
@@ -212,7 +194,7 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
         pair<int, int> p;
         double min_distance = DBL_MAX;
         int lowest_neighbor = -1;
-        cout << "check id: " << check_id << endl;
+        cout << "Visited Node ID: " << check_id << endl;
         bool all_visited = true;
         while (check_node->next != nullptr) {
             check_node = check_node->next;
@@ -248,19 +230,6 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
     
 }
 
-// double GraphData::findDist(int node1, int node2) {
-//     pair<double, double> primary(node1, node2);
-//     pair<double, double> alternate(node2, node1);
-//     double primary_dist_ = edges_[primary];
-//     double alternate_dist_ = edges_[alternate];
-//     if (primary_dist_ != 0) {
-//         return primary_dist_;
-//     } else if (alternate_dist_ != 0) {
-//         return alternate_dist_;
-//     }
-//     return 0;
-// }
-
 bool GraphData::checkVisited(Node* check, vector<Node*> visited) {
     for (Node* val : visited) {
         if (val->id == check->id) {
@@ -274,6 +243,5 @@ bool GraphData::checkVisited(Node* check, vector<Node*> visited) {
 vector<Node*> GraphData::getAdjacencyList() {
     return adj_;
 }
-
 
 
