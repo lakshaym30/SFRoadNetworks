@@ -98,10 +98,24 @@ PNG GraphData::graphVisualizer() {
         //creating 3 by 3 for each node for visualization
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                HSLAPixel & curPixel = vis->getPixel((unsigned int)(val->x + i) + 1 , (unsigned int)(vis->height() - val->y + j) - 2);
-                curPixel = ORANGE;
+                if(val->id == 0) {
+                    HSLAPixel & curPixel = vis->getPixel((unsigned int)(val->x + i) + 1 , (unsigned int)(vis->height() - val->y + j) - 2);
+                    curPixel = GREEN;
+                } else {
+                    HSLAPixel & curPixel = vis->getPixel((unsigned int)(val->x + i) + 1 , (unsigned int)(vis->height() - val->y + j) - 2);
+                    curPixel = ORANGE;
+                }
             }
         }
+    }
+
+    for(int x = 0; x < width; x++) {
+        HSLAPixel & curPixel = vis->getPixel(x, 12000 - 2760);
+        curPixel = BLACK;
+    }
+    for(int y = 0; y < height; y++) {
+        HSLAPixel & curPixel = vis->getPixel(1906, y);
+        curPixel = BLACK;
     }
 
     map<pair<int, int>, bool> visited;
