@@ -196,8 +196,7 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
     vector<Node*> unvisited;
     vector<int> distances;
     vector<int> previous;
-    //visited<int> visited_index;
-
+    
     for (Node* node : graph) {
         unvisited.push_back(node);
         distances.push_back(INT_MAX);
@@ -211,15 +210,15 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
     while (unvisited.size() != 0) { 
         Node* check_node = adj_.at(check_id);
         pair<int, int> p;
-        std::cout << "starting: " << check_id <<  std::endl;
-        int min_distance = INT_MAX;
-        int lowest_neighbor;
+        double min_distance = DBL_MAX;
+        int lowest_neighbor = -1;
+        cout << "check id: " << check_id << endl;
+        bool all_visited = true;
         while (check_node->next != nullptr) {
             check_node = check_node->next;
             p = make_pair(check_id, check_node->id);
             if (checkVisited(check_node, visited) == false) {
-                std::cout << "id1: " << check_id << ", id2: " << check_node->id << ", dist: " << edges_[p] << endl;
-                //std::cout << "neighbor:"  << check_node->id << ", distance: " << edges_[p] << std::endl;
+                all_visited = false;
                 if (distances.at(check_node->id)  > edges_[p] + distances.at(check_id)) {
                     distances.at(check_node->id) = edges_[p] + distances.at(check_id);
                     previous.at(check_node->id) = check_id;  
@@ -227,13 +226,16 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
                 if (edges_[p] + distances.at(check_id) < min_distance) {
                         lowest_neighbor = check_node->id;
                         min_distance = edges_[p] + distances.at(check_id); 
-                    }
-                 
+                }
             }
         }
+        if (all_visited == true) {
+            pair<vector<int>, vector<int>> result;
+            result.first = distances;
+            result.second = previous;
+            return result;
+        }
         check_id = lowest_neighbor; 
-        //cout << "seg fault checker" << endl;
-        //cout << check_node->id << endl;
          
         unvisited.erase(unvisited.begin() + check_id - delete_count);
         delete_count++;
@@ -243,6 +245,7 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
     result.first = distances;
     result.second = previous;
     return result;
+    
 }
 
 // double GraphData::findDist(int node1, int node2) {
