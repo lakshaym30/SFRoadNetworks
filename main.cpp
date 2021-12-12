@@ -4,9 +4,9 @@ int main() {
     //GraphData gd("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
     GraphData gd("datasets/SFnodes.txt", "datasets/SFedges.txt");
 
+    PNG image = gd.graphVisualizer();
+    image.writeToFile("SFGraph.png");
+    pair<vector<int>, vector<int>> result = gd.shortestPath(gd.getAdjacencyList(), 44);
 
-    PNG result = gd.graphVisualizer();
-    result.writeToFile("SFGraph.png");
-    //pair<vector<int>, vector<Node*>> result = gd.shortestPath(gd.getAdjacencyList(), 1);
     return 0;
 }
