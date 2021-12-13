@@ -2,6 +2,7 @@
 surajr4-lakshay3-cbhatia3-chiragm3
 
 1) The location of all major code, data, and results. (2) Full instructions on how to build and run your executable, including how to define the input data and output location for each method. (3) Full instructions how to build and run your test suite, including a general description on what tests you have created. It is in your best interest to make the instructions (and the running of your executables and tests) as simple and straightforward as possible.
+<<<<<<< HEAD
 
 Instructions
 ======================
@@ -34,3 +35,5 @@ To run tests, run make tests in terminal. Will output results of test.
 Different tests Created:
 1) Adjacency list tests using small datasets
 2) Data visualization tests using small datasets
+=======
+>>>>>>> cb776a253540183e01cae597847d50efc1af6357

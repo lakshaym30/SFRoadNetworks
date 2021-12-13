@@ -63,9 +63,11 @@ void GraphData::insert(Node* newNode) {
     newNode = nullptr;
 }
 
-void GraphData::BFS(int id) {
+vector<bool> GraphData::BFS(int id) {
     vector<bool> visited;
-    for (int i = 0; i < numNodes_; i++) visited.push_back(false);
+    //cout << "num nodes:"  << numNodes_ << endl;
+    for (unsigned i = 0; i < adj_.size(); i++) visited.push_back(false);
+
 
     queue<int> queue;
     visited.at(id) = true;
@@ -81,9 +83,10 @@ void GraphData::BFS(int id) {
                 visited.at(curr->id) = true;
                 queue.push(curr->id);
             }
+            curr = curr->next;
         }
     }
-
+    return visited;
 }
 
 PNG GraphData::graphVisualizer() {
@@ -183,13 +186,19 @@ PNG GraphData::graphVisualizer() {
 }
 
 
-pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
+pair<vector<int>, vector<int>> GraphData::shortestPath(int start_id) {
+    if (start_id < 0) {
+        throw invalid_argument("Invalid Starting Node ID");
+    }
+    if ((unsigned)start_id > nodes_.size()) {
+        throw invalid_argument("Invalid Starting Node ID");
+    }
     vector<Node*> visited;
     vector<Node*> unvisited;
     vector<int> distances;
     vector<int> previous;
     
-    for (Node* node : graph) {
+    for (Node* node : adj_) {
         unvisited.push_back(node);
         distances.push_back(INT_MAX);
         previous.push_back(0);
@@ -249,9 +258,5 @@ bool GraphData::checkVisited(Node* check, vector<Node*> visited) {
     return false;
 }
 
-
-vector<Node*> GraphData::getAdjacencyList() {
-    return adj_;
-}
 
 

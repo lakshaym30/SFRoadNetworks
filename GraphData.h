@@ -10,6 +10,7 @@
 #include <cmath>
 #include <list>
 #include <float.h>
+#include <stdexcept>
 
 #include "cs225/HSLAPixel.h"
 #include "cs225/PNG.h"
@@ -29,15 +30,14 @@ class GraphData {
     GraphData();
     GraphData(std::string data1, std::string data2);
     void insert(Node* newNode);
-    void BFS(int id);
+    vector<bool> BFS(int id);
     PNG graphVisualizer();
-    pair<vector<int>, vector<int>> shortestPath(vector<Node*> graph, int start_id);
+    pair<vector<int>, vector<int>> shortestPath(int start_id);
     bool checkVisited(Node* check, vector<Node*> visited);
-    vector<Node*> getAdjacencyList();
 
 
     private:
-    int numNodes_;
+    long numNodes_;
     map<int, pair<double, double> > nodes_;
     map<pair<int, int>, double> edges_;
     vector<Node*> adj_;
