@@ -11,10 +11,55 @@ using cs225::HSLAPixel;
 
 #include <vector>
 
-// default constructor
-TEST_CASE("HSLAPixel's default constructor creates a white pixel", "[weight=1]") {
-  REQUIRE(true);
+TEST_CASE("Testing graphing with Small Dataset") {
+  GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
+  vector<Node*> vals = gd_small.getAdjacencyList();
+  SECTION("Checking first node in Adjacency list"){
+    REQUIRE(vals[0].id==0);
+    REQUIRE(vals[0].x==0);
+    REQUIRE(vals[0].y==0);
+  }
 }
+
+// default constructor
+TEST_CASE("Testing graphing with Small Dataset") {
+  GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
+  cs225::PNG img = gd_small.graphVisualizer();
+
+  SECTION("Checking for center of node"){
+    cs225::HSLAPixel pixel = img.getPixel(0, 11998);
+    REQUIRE(pixel.h==120);
+    REQUIRE(pixel.s==1);
+    REQUIRE(pixel.l==0.5);
+    REQUIRE(pixel.a==1);
+  }
+
+  SECTION("Checking for empty pixel"){
+    cs225::HSLAPixel pixel = img.getPixel(0, 0);
+    REQUIRE(pixel.h==0);
+    REQUIRE(pixel.s==0);
+    REQUIRE(pixel.l==1);
+    REQUIRE(pixel.a==1);
+  }
+
+  SECTION("Checking for border of node"){
+    cs225::HSLAPixel pixel = img.getPixel(0, 11997);
+    REQUIRE(pixel.h==120);
+    REQUIRE(pixel.s==1);
+    REQUIRE(pixel.l==0.5);
+    REQUIRE(pixel.a==1);
+  }
+
+  SECTION("Checking for line of graph"){
+    cs225::HSLAPixel pixel = img.getPixel(19, 11998);
+    REQUIRE(pixel.h==0);
+    REQUIRE(pixel.s==0);
+    REQUIRE(pixel.l==1);
+    REQUIRE(pixel.a==1);
+  }
+  
+}
+
 
 TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
   SECTION("Testing Distance Vector Functionality Starting at Node 0") {
