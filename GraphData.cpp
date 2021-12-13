@@ -63,7 +63,7 @@ void GraphData::insert(Node* newNode) {
     newNode = nullptr;
 }
 
-void GraphData::BFS(int id) {
+vector<bool> GraphData::BFS(int id) {
     vector<bool> visited;
     for (int i = 0; i < numNodes_; i++) visited.push_back(false);
 
@@ -83,6 +83,7 @@ void GraphData::BFS(int id) {
             }
         }
     }
+    return visited;
 
 }
 

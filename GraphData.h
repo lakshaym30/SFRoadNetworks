@@ -30,7 +30,7 @@ class GraphData {
     GraphData();
     GraphData(std::string data1, std::string data2);
     void insert(Node* newNode);
-    void BFS(int id);
+    vector<bool> BFS(int id);
     PNG graphVisualizer();
     pair<vector<int>, vector<int>> shortestPath(vector<Node*> graph, int start_id);
     bool checkVisited(Node* check, vector<Node*> visited);
