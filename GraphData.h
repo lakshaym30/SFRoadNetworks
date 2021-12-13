@@ -32,9 +32,8 @@ class GraphData {
     void insert(Node* newNode);
     vector<bool> BFS(int id);
     PNG graphVisualizer();
-    pair<vector<int>, vector<int>> shortestPath(vector<Node*> graph, int start_id);
+    pair<vector<int>, vector<int>> shortestPath(int start_id);
     bool checkVisited(Node* check, vector<Node*> visited);
-    vector<Node*> getAdjacencyList();
 
 
     private:
