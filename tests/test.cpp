@@ -11,15 +11,6 @@ using cs225::HSLAPixel;
 
 #include <vector>
 
-TEST_CASE("Testing graphing with Small Dataset") {
-  GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-  vector<Node*> vals = gd_small.getAdjacencyList();
-  SECTION("Checking first node in Adjacency list"){
-    REQUIRE(vals[0].id==0);
-    REQUIRE(vals[0].x==0);
-    REQUIRE(vals[0].y==0);
-  }
-}
 
 // default constructor
 TEST_CASE("Testing graphing with Small Dataset") {
@@ -59,6 +50,8 @@ TEST_CASE("Testing graphing with Small Dataset") {
   }
   
 }
+
+
 
 
 TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {

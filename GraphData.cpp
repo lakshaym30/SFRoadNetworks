@@ -116,8 +116,13 @@ PNG GraphData::graphVisualizer() {
         curPixel = BLACK;
     }
 
+
+
     map<pair<int, int>, bool> visited;
     //drawing edges between appropriate nodes with connections
+
+    //Adapted from https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
+    //Used Bresenham’s Line Generation Algorithm
     for (Node* val : adj_) {
         Node* next_ = val->next;
         pair<int, int> p1 = make_pair(val->id, next_->id);
