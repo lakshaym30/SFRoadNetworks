@@ -31,12 +31,12 @@ Test suites:
 To run tests, run make tests in terminal. Will output results of test. 
 
 Different tests Created:
-1) Adjacency list tests using small datasets
-2) Data visualization tests using small datasets
-3) Shortest Path Algorithm using small datasets
+1) Data visualization tests using small datasets
+    > Checked nodes at center, border, and edges to check if correct pixel is drawn.
+2) Shortest Path Algorithm using small datasets
     > Traced algorithm on small dataset and checked if expected values matched values in vectors produced by the shortest path algoritm.
-4) Shortest Path Algorithm using big datasets
+3) Shortest Path Algorithm using big datasets
     > Traced algorithm starting from random nodes and checked if expected values matched values in vectors produced by the shortest path algorithm.
-5) BFS
+4) BFS
     > Checked if all values in the graph were visited for both the small and big datsets.
 
