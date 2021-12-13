@@ -38,7 +38,7 @@ class GraphData {
 
 
     private:
-    int numNodes_;
+    long numNodes_;
     map<int, pair<double, double> > nodes_;
     map<pair<int, int>, double> edges_;
     vector<Node*> adj_;

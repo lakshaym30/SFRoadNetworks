@@ -65,7 +65,9 @@ void GraphData::insert(Node* newNode) {
 
 vector<bool> GraphData::BFS(int id) {
     vector<bool> visited;
-    for (int i = 0; i < numNodes_; i++) visited.push_back(false);
+    //cout << "num nodes:"  << numNodes_ << endl;
+    for (unsigned i = 0; i < adj_.size(); i++) visited.push_back(false);
+
 
     queue<int> queue;
     visited.at(id) = true;
@@ -81,10 +83,10 @@ vector<bool> GraphData::BFS(int id) {
                 visited.at(curr->id) = true;
                 queue.push(curr->id);
             }
+            curr = curr->next;
         }
     }
     return visited;
-
 }
 
 PNG GraphData::graphVisualizer() {

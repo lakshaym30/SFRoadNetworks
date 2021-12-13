@@ -179,4 +179,33 @@ TEST_CASE("Testing Shortest Path Functionality on Big Dataset") {
   }
 }
 
+TEST_CASE("Testing BFS") {
+  SECTION("Testing BFS on Small Dataset") {
+    GraphData gd_bfs_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
+    vector<bool> output = gd_bfs_small.BFS(0);
+    bool flag = true;
+    cout << "size:" << output.size() << endl;
+    for (bool b : output) {
+      if (b != true) {
+        flag = false;
+      }
+    }
+    REQUIRE(flag == true);
+  }
+
+  SECTION("Testing BFS on Big Dataset") {
+    GraphData gd_bfs_big("datasets/SFnodes.txt", "datasets/SFedges.txt");
+    vector<bool> output = gd_bfs_big.BFS(0);
+    bool flag = true;
+    cout << "size:" << output.size() << endl;
+    for (bool b : output) {
+      if (b != true) {
+        flag = false;
+      }
+    }
+    REQUIRE(flag == true);
+  }
+  
+}
+
 
