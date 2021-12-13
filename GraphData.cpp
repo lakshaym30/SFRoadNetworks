@@ -184,6 +184,12 @@ PNG GraphData::graphVisualizer() {
 
 
 pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int start_id) {
+    if (start_id < 0) {
+        throw invalid_argument("Invalid Starting Node ID");
+    }
+    if ((unsigned)start_id > nodes_.size()) {
+        throw invalid_argument("Invalid Starting Node ID");
+    }
     vector<Node*> visited;
     vector<Node*> unvisited;
     vector<int> distances;
@@ -204,7 +210,7 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
         pair<int, int> p;
         double min_distance = DBL_MAX;
         int lowest_neighbor = -1;
-        //cout << "Visited Node ID: " << check_id << endl;
+        cout << "Visited Node ID: " << check_id << endl;
         bool all_visited = true;
         while (check_node->next != nullptr) {
             check_node = check_node->next;

@@ -10,6 +10,7 @@
 #include <cmath>
 #include <list>
 #include <float.h>
+#include <stdexcept>
 
 #include "cs225/HSLAPixel.h"
 #include "cs225/PNG.h"
