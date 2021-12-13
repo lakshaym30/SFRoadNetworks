@@ -54,7 +54,7 @@ TEST_CASE("Testing graphing with Small Dataset") {
 TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
   SECTION("Testing Distance Vector Functionality Starting at Node 0") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 0);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(0);
     vector<int> distances_vector = output.first;
     REQUIRE(distances_vector.at(0) == 0);
     REQUIRE(distances_vector.at(1) == 3);
@@ -65,7 +65,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Distance Vector Functionality Starting at Node 1") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 1);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(1);
     vector<int> distances_vector = output.first;
     REQUIRE(distances_vector.at(0) == 3);
     REQUIRE(distances_vector.at(1) == 0);
@@ -76,7 +76,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Distance Vector Functionality Starting at Node 3") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 3);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(3);
     vector<int> distances_vector = output.first;
     REQUIRE(distances_vector.at(0) == 1);
     REQUIRE(distances_vector.at(1) == 2);
@@ -87,7 +87,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Distance Vector Functionality Starting at Node 4") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 4);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(4);
     vector<int> distances_vector = output.first;
     REQUIRE(distances_vector.at(0) == 2);
     REQUIRE(distances_vector.at(1) == 2);
@@ -98,7 +98,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Previous Vector Functionality Starting at Node 0") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 0);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(0);
     vector<int> previous_vector = output.second;
     REQUIRE(previous_vector.at(0) == 0);
     REQUIRE(previous_vector.at(1) == 3);
@@ -109,7 +109,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Previous Vector Functionality Starting at Node 2") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 2);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(2);
     vector<int> previous_vector = output.second;
     REQUIRE(previous_vector.at(0) == 3);
     REQUIRE(previous_vector.at(1) == 2);
@@ -120,7 +120,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Previous Vector Functionality Starting at Node 3") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 3);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(3);
     vector<int> previous_vector = output.second;
     REQUIRE(previous_vector.at(0) == 3);
     REQUIRE(previous_vector.at(1) == 3);
@@ -131,7 +131,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 
   SECTION("Testing Previous Vector Functionality Starting at Node 4") {
     GraphData gd_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
-    pair<vector<int>, vector<int>> output = gd_small.shortestPath(gd_small.getAdjacencyList(), 4);
+    pair<vector<int>, vector<int>> output = gd_small.shortestPath(4);
     vector<int> previous_vector = output.second;
     REQUIRE(previous_vector.at(0) == 3);
     REQUIRE(previous_vector.at(1) == 4);
@@ -144,7 +144,7 @@ TEST_CASE("Testing Shortest Path Functionality on Small Dataset") {
 TEST_CASE("Testing Shortest Path Functionality on Big Dataset") {
   SECTION("Testing Distance Vector Functionality Starting at Node 7") {
     GraphData gd_big("datasets/SFnodes.txt", "datasets/SFedges.txt");
-    pair<vector<int>, vector<int>> output = gd_big.shortestPath(gd_big.getAdjacencyList(), 7);
+    pair<vector<int>, vector<int>> output = gd_big.shortestPath(7);
     vector<int> distances_vector = output.first;
     REQUIRE(distances_vector.at(0) == 48);
     REQUIRE(distances_vector.at(1) == 53);
@@ -153,7 +153,7 @@ TEST_CASE("Testing Shortest Path Functionality on Big Dataset") {
 
   SECTION("Testing Distance Vector Functionality (When Nodes Do Not Get Visited) Starting at Node 21") {
     GraphData gd_big("datasets/SFnodes.txt", "datasets/SFedges.txt");
-    pair<vector<int>, vector<int>> output = gd_big.shortestPath(gd_big.getAdjacencyList(), 21);
+    pair<vector<int>, vector<int>> output = gd_big.shortestPath(21);
     vector<int> distances_vector = output.first;
     REQUIRE(distances_vector.at(0) == INT_MAX);
     REQUIRE(distances_vector.at(1) == INT_MAX);
@@ -162,7 +162,7 @@ TEST_CASE("Testing Shortest Path Functionality on Big Dataset") {
 
   SECTION("Testing Previous Vector Functionality Starting at Node 44") {
     GraphData gd_big("datasets/SFnodes.txt", "datasets/SFedges.txt");
-    pair<vector<int>, vector<int>> output = gd_big.shortestPath(gd_big.getAdjacencyList(), 44);
+    pair<vector<int>, vector<int>> output = gd_big.shortestPath(44);
     vector<int> previous_vector = output.second;
     REQUIRE(previous_vector.at(23) == 15);
     REQUIRE(previous_vector.at(24) == 17);
@@ -171,7 +171,7 @@ TEST_CASE("Testing Shortest Path Functionality on Big Dataset") {
   
   SECTION("Testing Previous Vector Functionality Starting at Node 67") {
     GraphData gd_big("datasets/SFnodes.txt", "datasets/SFedges.txt");
-    pair<vector<int>, vector<int>> output = gd_big.shortestPath(gd_big.getAdjacencyList(), 67);
+    pair<vector<int>, vector<int>> output = gd_big.shortestPath(67);
     vector<int> previous_vector = output.second;
     REQUIRE(previous_vector.at(33) == 40);
     REQUIRE(previous_vector.at(34) == 33);
@@ -184,7 +184,6 @@ TEST_CASE("Testing BFS") {
     GraphData gd_bfs_small("datasets/smallDatasetNodes.txt", "datasets/smallDatasetEdges.txt");
     vector<bool> output = gd_bfs_small.BFS(0);
     bool flag = true;
-    cout << "size:" << output.size() << endl;
     for (bool b : output) {
       if (b != true) {
         flag = false;
@@ -197,7 +196,6 @@ TEST_CASE("Testing BFS") {
     GraphData gd_bfs_big("datasets/SFnodes.txt", "datasets/SFedges.txt");
     vector<bool> output = gd_bfs_big.BFS(0);
     bool flag = true;
-    cout << "size:" << output.size() << endl;
     for (bool b : output) {
       if (b != true) {
         flag = false;
