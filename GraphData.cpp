@@ -187,49 +187,65 @@ PNG GraphData::graphVisualizer() {
 
 
 pair<vector<int>, vector<int>> GraphData::shortestPath(int start_id) {
+    //throwing illegal argument exception if starting_id is less than 0, since 0 is the first valid node_id.
     if (start_id < 0) {
         throw invalid_argument("Invalid Starting Node ID");
     }
+    //throwing illegal argument exception if the starting_id is greater than the size of the vector containing our nodes.
     if ((unsigned)start_id > nodes_.size()) {
         throw invalid_argument("Invalid Starting Node ID");
     }
+    //creating vectors to keep track of visited and unvisited nodes, distances between each node and the starting node, and the previous node for each node.
     vector<Node*> visited;
     vector<Node*> unvisited;
     vector<int> distances;
     vector<int> previous;
-    
+
     for (Node* node : adj_) {
+        //looping through each node in the adjacency list and adding them to the vector of unvisited nodes.
         unvisited.push_back(node);
+        //looping through each node in the adjacency list and pushing back 'INT_MAX' as its temporary distance from the starting node.
         distances.push_back(INT_MAX);
+        //looping through each node in the adjacency list and pushing back 0 as the temporary id for its previous node.
         previous.push_back(0);
     }
 
     distances.at(start_id) = 0;
     visited.push_back(adj_.at(start_id));
+    //setting check_id equal to the starting_id.
     int check_id = start_id;
+    //count of how many nodes are being deleted from the unvisited vector.
     int delete_count = 0;
     while (unvisited.size() != 0) { 
+        //initializing check_node to the head node of the adjacency list at the check_id
         Node* check_node = adj_.at(check_id);
         pair<int, int> p;
+        //initializing min_distance with 'DBL_MAX' to find the min distance between two nodes.
         double min_distance = DBL_MAX;
         int lowest_neighbor = -1;
         cout << "Visited Node ID: " << check_id << endl;
+        //boolean flag to check if all nodes have been visited.
         bool all_visited = true;
+        //looping through all connected nodes in the adjacency list.
         while (check_node->next != nullptr) {
             check_node = check_node->next;
             p = make_pair(check_id, check_node->id);
+            //checking if check_node if found in the visited vector.
             if (checkVisited(check_node, visited) == false) {
                 all_visited = false;
+                //changing values in the distance and previous vectors at check node's id.
                 if (distances.at(check_node->id)  > edges_[p] + distances.at(check_id)) {
                     distances.at(check_node->id) = edges_[p] + distances.at(check_id);
                     previous.at(check_node->id) = check_id;  
                 }
+                //changing min_distance.
                 if (edges_[p] + distances.at(check_id) < min_distance) {
                         lowest_neighbor = check_node->id;
                         min_distance = edges_[p] + distances.at(check_id); 
                 }
             }
         }
+        //returning the pair of vectors if all possible nodes in the graph have been visited.
         if (all_visited == true) {
             pair<vector<int>, vector<int>> result;
             result.first = distances;
