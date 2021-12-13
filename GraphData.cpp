@@ -107,15 +107,6 @@ PNG GraphData::graphVisualizer() {
         }
     }
 
-    for(int x = 0; x < width; x++) {
-        HSLAPixel & curPixel = vis->getPixel(x, 12000 - 2760);
-        curPixel = BLACK;
-    }
-    for(int y = 0; y < height; y++) {
-        HSLAPixel & curPixel = vis->getPixel(1906, y);
-        curPixel = BLACK;
-    }
-
 
 
     map<pair<int, int>, bool> visited;
