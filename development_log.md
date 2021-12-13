@@ -27,6 +27,10 @@ During this week, our group was able to complete the graph visualization algorit
 
 
 ## 12/13
+### Goals for the Week
+
+For this week, our group plans on completing all unfinished parts of our project, which includes implementation of the shortest path algorithm, as well as testing and commenting our code for all algorithms.
+
 ### Progress
 
 Based on last week's goals, we have finished everything we planned on doing. We finished working implementations of shortest path, as well as the graph visualization algorithm. We have additionally completed testing and commenting our code. 

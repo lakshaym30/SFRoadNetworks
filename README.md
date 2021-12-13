@@ -13,8 +13,12 @@ We can download the files for the dataset online and store them in a .txt on our
 Files: 
 ------------------
 
-1) GraphData.cpp/GraphData.h: File that contains the parsing of data, BFS algorithm, shortest path algorithm, and data visualization algorithm.
-2) tests/test.cpp: File that contains all the testing for the different algorithms.
+1) datasets/smallDatasetEdges.txt: File that contains all edges for the small dataset that we created.
+2) datasets/smallDatasetNodes.txt: File that contains all nodes for the small dataset that we created.
+3) datasets/SFedges.txt: File that contains all edges for our large dataset.
+4) datasets/SFnodes.txt: File that contains all nodes for our large dataset.
+5) GraphData.cpp/GraphData.h: File that contains the parsing of data, BFS algorithm, shortest path algorithm, and data visualization algorithm.
+6) tests/test.cpp: File that contains all the testing for the different algorithms.
 
 How to run algorithms:
 ----------------------
