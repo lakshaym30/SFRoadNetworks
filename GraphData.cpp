@@ -107,17 +107,13 @@ PNG GraphData::graphVisualizer() {
         }
     }
 
-    for(int x = 0; x < width; x++) {
-        HSLAPixel & curPixel = vis->getPixel(x, 12000 - 2760);
-        curPixel = BLACK;
-    }
-    for(int y = 0; y < height; y++) {
-        HSLAPixel & curPixel = vis->getPixel(1906, y);
-        curPixel = BLACK;
-    }
+
 
     map<pair<int, int>, bool> visited;
     //drawing edges between appropriate nodes with connections
+
+    //Adapted from https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
+    //Used Bresenham’s Line Generation Algorithm
     for (Node* val : adj_) {
         Node* next_ = val->next;
         pair<int, int> p1 = make_pair(val->id, next_->id);
@@ -208,7 +204,7 @@ pair<vector<int>, vector<int>> GraphData::shortestPath(vector<Node*> graph, int 
         pair<int, int> p;
         double min_distance = DBL_MAX;
         int lowest_neighbor = -1;
-        cout << "Visited Node ID: " << check_id << endl;
+        //cout << "Visited Node ID: " << check_id << endl;
         bool all_visited = true;
         while (check_node->next != nullptr) {
             check_node = check_node->next;

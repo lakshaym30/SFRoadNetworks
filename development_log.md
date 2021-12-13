@@ -23,6 +23,12 @@ For this week, our group plans on completing the shortest path algorithm and vis
 
 ### Progress
 
-During this week, our group was able to complete the graph visualization algorithm. This algorithm works as intended, and it presents an image of the graph of road networks in San Francisco. We are currently still working on implementing test cases and completing our shortest path algorithm so that it works as intended on our large dataset
+During this week, our group was able to complete the graph visualization algorithm. This algorithm works as intended, and it presents an image of the graph of road networks in San Francisco. We are currently still working on implementing test cases and completing our shortest path algorithm so that it works as intended on our large dataset.
+
+
+## 12/13
+### Progress
+
+Based on last week's goals, we have finished everything we planned on doing. We finished working implementations of shortest path, as well as the graph visualization algorithm. We have additionally completed testing and commenting our code. 
 
 
